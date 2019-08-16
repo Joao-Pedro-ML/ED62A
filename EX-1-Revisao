@@ -1,0 +1,23 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+
+
+void funcao(int *quant_min, int *hora, int *min){
+    printf("Digite uma quantidade de minutos: \n");
+    scanf("%i", &quant_min);
+    if(quant_min >= 60){
+        hora = quant_min / 60;
+        min = quant_min - 
+        printf("Horas: %i", hora);
+    }
+    
+}
+
+int main(){
+    
+    int quant_min=0;
+    int hora=0;
+    int min=0;
+    
+}
