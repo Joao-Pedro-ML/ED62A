@@ -7,17 +7,18 @@ void funcao(int *quant_min, int *hora, int *min){
     printf("Digite uma quantidade de minutos: \n");
     scanf("%i", &quant_min);
     if(quant_min >= 60){
-        hora = quant_min / 60;
-        min = quant_min - 
-        printf("Horas: %i", hora);
+        *hora = *quant_min / 60;
+        *min = *quant_min % 60;
+        printf("Horas: %i, Minutos: %i", *hora, *min);
     }
-    
+    printf("Endereço hora: %p", hora);
+    printf("Endereço min: %p", min);
 }
 
 int main(){
-    
+
     int quant_min=0;
     int hora=0;
     int min=0;
-    
+    funcao(quant_min, hora, min);
 }
