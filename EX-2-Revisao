@@ -1,0 +1,28 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+
+
+
+
+int main(){
+
+    FILE *arq=NULL;
+    arq=fopen("ola.txt", "r");
+    if(arq == NULL){
+        printf("Deu merda!!!");
+        exit(1);
+    }
+
+    FILE *arq2=NULL;
+    arq2=fopen("novo.txt", "r");
+    if(arq2 == NULL){
+        printf("Deu merda!!!");
+    }
+
+    for(int i=0;i<EOF;i++){
+        if(i == 'a' || i == 'e' || i == 'i' || i = 'o' || i == 'u'){
+            fputc('*', arq2);
+        }
+    }
+}
