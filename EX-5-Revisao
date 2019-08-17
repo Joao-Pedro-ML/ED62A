@@ -1,0 +1,63 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+typedef struct{
+    char nome[21];
+    char estilo[21];
+    int nint;
+    int ranking;
+}banda;
+
+void limpar_buffer(){
+    char c;
+    while((c=getchar())!='\n' && c!=EOF){}
+}
+
+void preencher(banda BANDA[5]){
+    
+    
+    for(int i=0;i<5;i++){
+        printf("Digite o nome da banda: ");
+        fgets(BANDA[i].nome, sizeof(BANDA[i].nome), stdin);
+        BANDA[i].nome[strcspn(BANDA[i].nome, "\n")]='\0';
+        printf("Digite o estilo da banda: ");
+        fgets(BANDA[i].estilo, sizeof(BANDA[i].estilo), stdin);
+        BANDA[i].estilo[strcspn(BANDA[i].estilo, "\n")]='\0';
+        printf("Digite o numero de integrantes: ");
+        scanf("%i", &BANDA[i].nint);
+        printf("Digite o ranking: ");
+        scanf("%i", &BANDA[i].ranking);
+        limpar_buffer();
+    }
+    
+}
+
+void mostrar(banda BANDA[5]){
+    for(int i=0;i<5;i++){
+        printf("Nome: %s", BANDA[i].nome);
+        printf("Estilo: %s", BANDA[i].estilo);
+        printf("Numero de integrantes: %i", BANDA[i].nint);
+        printf("Ranking: %i", BANDA[i].ranking);
+    }
+}
+
+void escolha(banda BANDA[5]){
+    int n=0;
+    printf("Digite um numero de 1 a 5: ");
+    scanf("%i", &n);
+    printf("Nome: %s", BANDA[n].nome);
+    printf("Estilo: %s", BANDA[n].estilo);
+    printf("Numero de integrantes: %i", BANDA[n].nint);
+    printf("Ranking: %i", BANDA[n].ranking);
+}
+
+int main(int argc, char** argv) {
+
+    banda BANDA[5];
+    preencher(BANDA);
+    mostrar(BANDA);
+    escolha(BANDA);
+    
+    return (EXIT_SUCCESS);
+}
