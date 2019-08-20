@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <stdbool.h>
 
 typedef struct{
@@ -8,7 +9,7 @@ typedef struct{
 } Carta;
 
 typedef struct{
-    carta array[54];
+    Carta array[54];
 } Baralho;
 
 void criaBaralho(Baralho *baralho){
