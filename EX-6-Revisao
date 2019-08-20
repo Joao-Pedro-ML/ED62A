@@ -1,0 +1,39 @@
+#include <stdio.h>
+#include <stdbool.h>
+
+typedef struct{
+    char valor[21];
+    char naipe[21];
+    bool foiJogada;
+} Carta;
+
+typedef struct{
+    carta array[54];
+} Baralho;
+
+void criaBaralho(Baralho *baralho){
+    
+}
+
+void cartasNaoJogadas(Baralho *baralho){
+    
+}
+
+void cartaTopo(Baralho *baralho){
+    
+}
+
+void cartaFundo(Baralho *baralho){
+
+}
+
+Carta* carteado(Baralho *baralho){
+
+}
+
+int main() {
+    
+    
+    
+    return 0;
+}
