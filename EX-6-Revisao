@@ -3,8 +3,8 @@
 #include <stdbool.h>
 
 typedef struct{
-    char valor[21];
-    char naipe[21];
+    char valor[13];
+    char naipe[4];
     bool foiJogada;
 } Carta;
 
@@ -12,29 +12,33 @@ typedef struct{
     Carta array[54];
 } Baralho;
 
-void criaBaralho(Baralho *baralho){
-    
+void imprimeCarta(Carta c){
+    printf("Valor = %c", c.valor);
+    printf("Naipe = %c", c.naipe);
+    printf("Jogada = %i", c.foiJogada);
 }
 
-void cartasNaoJogadas(Baralho *baralho){
-    
+void imprimeBaralho(Baralho deck){
+    for(int i=0;i<)
 }
 
-void cartaTopo(Baralho *baralho){
-    
-}
-
-void cartaFundo(Baralho *baralho){
-
-}
-
-Carta* carteado(Baralho *baralho){
-
+void criaBaralho(Baralho *deck){
+    for(int i=0;i<54;i++){
+        deck->array[i].foiJogada = false;
+    }
+    char naipe=('p', 'e', 'c', 'o');
+    char valore=('A', '2', '3', '4', '5', '6', '7', '8', '9', '0', 'J', 'Q', 'K');
 }
 
 int main() {
+
+    Baralho baralho;
+
+    printf("Antes: \n");
+    imprimeCarta(baralho.array[0]);
+    criaBaralho(&baralho);
+    printf("\n\nDepois: ");
     
-    
-    
+
     return 0;
 }
