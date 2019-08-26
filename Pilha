@@ -10,12 +10,12 @@
 typedef struct {
     int key;
 
-}objeto;
+} objeto;
 
 typedef struct {
     objeto vetor[N];
     int topo;
-}pilhaEst;
+} pilhaEst;
 
 void iniciaPilha(pilhaEst *pilha) {
     pilha->topo = -1;
@@ -41,7 +41,7 @@ bool estaCheia(pilhaEst *pilha) {
 void push(objeto obj, pilhaEst *pilha) {
 
     if (pilha->topo == N - 1) {
-        printf("Pilha cheia!");
+        printf("Pilha cheia!\n");
     } else {
         pilha->vetor[pilha->topo].key = obj.key;
         pilha->topo++;
@@ -50,13 +50,26 @@ void push(objeto obj, pilhaEst *pilha) {
 
 void pop(pilhaEst *pilha) {
 
+    float x = 0;
+    if (pilha->topo == N - 1) {
+        printf("A pilha esta vazia!\n");
+    } else {
+        x = pilha->vetor[pilha->topo].key;
+        pilha->topo--;
+    }
+
 }
 
 int size(pilhaEst *pilha) {
 
+    int y = 0;
+    printf("Tamanho da pilha: %i\n", y = pilha->topo);
+
 }
 
 objeto top(pilhaEst *pilha) {
+
+    printf("Topo da pilha: %i", pilha->vetor[pilha->topo].key);
 
 }
 
@@ -66,7 +79,7 @@ void print(pilhaEst *pilha) {
     for (int i = 0; i < 3; i++) {
         printf(" %i ", pilha->vetor[i].key);
     }
-    printf("}");
+    printf("}\n");
 }
 
 int main(int argc, char** argv) {
@@ -83,7 +96,8 @@ int main(int argc, char** argv) {
     }
 
     print(&pilha);
+    size(&pilha);
+    top(&pilha);
 
     return (EXIT_SUCCESS);
 }
-
