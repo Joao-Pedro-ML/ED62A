@@ -2,61 +2,76 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-typedef struct{
+typedef struct {
     int chave;
-}objeto;
+} objeto;
 
 typedef struct NoPilha *ponteiroNoPilha;
 
-typedef struct NoPilha{
+typedef struct NoPilha {
     objeto obj;
     ponteiroNoPilha proximo;
-}NoPilha;
+} NoPilha;
 
-typedef struct{
+typedef struct {
     ponteiroNoPilha topo;
     int tamanho;
-}pilhadim;
+} pilhadim;
 
-
-void iniciaPilha(pilhadim *pilha){
-    pilha->topo=NULL;
-    pilha->tamanho=0;
+void iniciaPilha(pilhadim *pilha) {
+    pilha->topo = NULL;
+    pilha->tamanho = 0;
 }
 
-int tamanho(pilhadim *pilha){
-    return (pilha->tamanho);
+void tamanho(pilhadim *pilha) {
+    printf("Tamanho: %i\n", pilha->tamanho); 
 }
 
-bool estaVazia(pilhadim *pilha){
+bool estaVazia(pilhadim *pilha) {
+
+    if(pilha->tamanho == 0)
+        return true;
     
-    return (pilha->tamanho == 0);
+    return false;
+    
+
+}
+
+void push(objeto obj, pilhadim *pilha) {
+    ponteiroNoPilha aux;
+    aux = (ponteiroNoPilha) malloc(sizeof (NoPilha));
+    aux->obj = obj;
+    aux->proximo = pilha->topo;
+    pilha->topo = aux;
+    pilha->tamanho = pilha->tamanho + 1;
     
 }
 
-void push(objeto obj, pilhadim *pilha){
-    
-}
+void pop(pilhadim *pilha, objeto *item) {
 
-objeto pop(pilhadim *pilha){
-    int aux;
-    if(!estaVazia(pilha)){
+    if (!estaVazia(pilha)) {
+        *item = pilha->topo->obj;
+        ponteiroNoPilha aux;
         aux = pilha->topo;
         pilha->topo = pilha->topo->proximo;
-        objeto ret = aux->objeto;
-        return (ret);
-        free(ret);
-        tamanho --;
+        free(aux);
+        pilha->tamanho = pilha->tamanho - 1;
     }
 }
 
-void print(pilhadim *pilha){
+void topo(pilhadim *pilha, objeto obj) {
+    
+    printf("Topo da pilha: %i\n", obj.chave);
+
+}
+
+void print(pilhadim *pilha) {
     printf("{");
     ponteiroNoPilha p;
-    for(p = pilha->topo;p != NULL;p = p->proximo){
+    for (p = pilha->topo; p != NULL; p = p->proximo) {
         printf("%i ", p->obj.chave);
     }
-    printf(" }\n");
+    printf("}\n");
 }
 
 int main(int argc, char** argv) {
@@ -64,8 +79,15 @@ int main(int argc, char** argv) {
     pilhadim pilha;
     objeto obj;
     iniciaPilha(&pilha);
+    for(int i=0;i<10;i++){
+        obj.chave = i;
+        push(obj, &pilha);
+    }
+    
+    //estaVazia(&pilha);
+    print(&pilha);
     tamanho(&pilha);
-
+    topo(&pilha, obj);
     return (EXIT_SUCCESS);
 }
 
