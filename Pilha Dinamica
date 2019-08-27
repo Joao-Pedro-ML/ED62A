@@ -1,0 +1,71 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+
+typedef struct{
+    int chave;
+}objeto;
+
+typedef struct NoPilha *ponteiroNoPilha;
+
+typedef struct NoPilha{
+    objeto obj;
+    ponteiroNoPilha proximo;
+}NoPilha;
+
+typedef struct{
+    ponteiroNoPilha topo;
+    int tamanho;
+}pilhadim;
+
+
+void iniciaPilha(pilhadim *pilha){
+    pilha->topo=NULL;
+    pilha->tamanho=0;
+}
+
+int tamanho(pilhadim *pilha){
+    return (pilha->tamanho);
+}
+
+bool estaVazia(pilhadim *pilha){
+    
+    return (pilha->tamanho == 0);
+    
+}
+
+void push(objeto obj, pilhadim *pilha){
+    
+}
+
+objeto pop(pilhadim *pilha){
+    int aux;
+    if(!estaVazia(pilha)){
+        aux = pilha->topo;
+        pilha->topo = pilha->topo->proximo;
+        objeto ret = aux->objeto;
+        return (ret);
+        free(ret);
+        tamanho --;
+    }
+}
+
+void print(pilhadim *pilha){
+    printf("{");
+    ponteiroNoPilha p;
+    for(p = pilha->topo;p != NULL;p = p->proximo){
+        printf("%i ", p->obj.chave);
+    }
+    printf(" }\n");
+}
+
+int main(int argc, char** argv) {
+
+    pilhadim pilha;
+    objeto obj;
+    iniciaPilha(&pilha);
+    tamanho(&pilha);
+
+    return (EXIT_SUCCESS);
+}
+
