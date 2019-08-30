@@ -1,0 +1,128 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+
+#define N 10
+
+typedef struct {
+    int key;
+} objeto;
+
+typedef struct {
+    int comeco;
+    int fim;
+    objeto array[N];
+    int contador;
+} filaEst;
+
+void iniciaPilha(filaEst *fila) {
+    fila->comeco = 0;
+    fila->fim = -1;
+    fila->contador = 0;
+}
+
+bool estaVazia(filaEst *fila) {
+    if (fila->contador == 0) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+bool estaCheia(filaEst *fila) {
+    if (fila->contador == N) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+void push(filaEst *fila, objeto obj) {
+    if (!estaCheia(fila)) {
+        
+        if (fila->fim == N) {
+            fila->fim = 0;
+        } else {
+            fila->fim++;
+        }
+        fila->contador++;
+        fila->array[fila->fim] = obj;
+    }
+}
+
+objeto pop(filaEst *fila, objeto *x) {
+    if (!estaVazia(fila)) {
+        x = &fila->array[fila->comeco];
+        fila->comeco++;
+        fila->contador--;
+    } else {
+        printf("Esta vazia!");
+    }
+}
+
+/*int incremento(int z){
+    z++;
+    if(z == N){
+        z = 0;
+    }
+}*/
+
+void print(filaEst *fila){
+    printf("[");
+    for(int i=fila->comeco;i<=fila->fim;i++){
+        printf(" %i ", fila->array[i].key);
+    }
+    printf("]\n");
+}
+
+int tamanhoFila(filaEst *fila){
+    int y = fila->contador;
+    printf("Tamanho da fila: %i\n", y);
+    
+}
+
+objeto primeiro(filaEst *fila){
+    printf("Primeiro: %i\n", fila->comeco);
+}
+
+objeto ultimo(filaEst *fila){
+    printf("Ultimo: %i\n", fila->fim);
+}
+
+int main(int argc, char** argv) {
+
+    filaEst fila;
+    objeto obj;
+    objeto x;
+    
+    iniciaPilha(&fila);
+    for(int i=0;i<N;i++){
+        obj.key=i;
+        push(&fila, obj);
+        print(&fila);
+    }
+    
+    
+    estaCheia(&fila);
+    estaVazia(&fila);
+    tamanhoFila(&fila);
+    primeiro(&fila);
+    ultimo(&fila);
+    pop(&fila, &x);
+    print(&fila);
+    primeiro(&fila);
+    ultimo(&fila);
+    
+    for(int i=0;i<7;i++){
+        x.key = i;
+        pop(&fila, &x);
+        print(&fila);
+    }
+    for(int i=0;i<3;i++){
+        obj.key = i;
+        push(&fila, obj);
+        print(&fila);
+    }
+    return (EXIT_SUCCESS);
+}
+
