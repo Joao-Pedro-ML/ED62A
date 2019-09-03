@@ -1,0 +1,71 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#include "pilhaestatica.h"
+#include "PilhaDinamica.h"
+
+int main(int argc, char** argv) {
+
+    pilhaEst pilhaE;
+    objetoEst objE;
+    pilhadim pilhaD;
+    pilhadim PIL;
+    objetoDin objD1, objD2;
+    FILE *arq1 = NULL;
+    FILE *arq2 = NULL;
+    arq1 = fopen("entrada.txt", "r");
+    if (arq1 == NULL) {
+        printf("Erro ao abrir o arquivo entrada!");
+        exit(1);
+    }
+    arq2 = fopen("saida.txt", "a");
+    char letra;
+    fscanf(arq1, "%c\n", &letra);
+    if (letra == 'e') {
+        iniciaPilhaEst(&pilhaE);
+        for (int i = 0; !feof(arq1); i++) {
+            fscanf(arq1, "%i\n", &objE.keyest);
+            pushEst(objE, &pilhaE);
+            printEst(&pilhaE);
+        }
+
+    }
+    if (letra == 'd') {
+        iniciaPilhaDin(&pilhaD);
+        for (int i = 0; !feof(arq1); i++) {
+            fscanf(arq1, "%i\n", &objD1.chave);
+            pushDin(objD1, &pilhaD);
+            printDin(&pilhaD);
+        }
+        iniciaPilhaDin(&PIL);
+        objetoDin item;
+        for (int i = 0; pilhaD.topo != NULL;) {
+            popDin(&pilhaD, &item);
+            for (;;) {
+                if (item.chave % 2 == 0) {
+                    objD2.chave = 0;
+                } else {
+                    objD2.chave = 1;
+                }
+                pushDin(objD2, &PIL);
+                printDin(&PIL);
+                item.chave /= 2;
+                if(item.chave/2==0){
+                    break;
+                }
+            }
+            for(;;){
+                popDin(&PIL, &objD2);
+                fprintf(arq2, "%i", objD2.chave);
+            }
+        }
+    }
+
+    if (fclose(arq1) != 0) {
+        printf("Erro ao fechar o arquivo entrada!");
+        exit(1);
+    }
+
+    return (EXIT_SUCCESS);
+}
+
