@@ -3,91 +3,119 @@
 #include <stdbool.h>
 
 typedef struct {
-    int chave;
+    int key;
 } objeto;
 
-typedef struct NoPilha *ponteiroNoPilha;
+typedef struct NoFila *ptrNoFila;
 
-typedef struct NoPilha {
+typedef struct NoFila {
     objeto obj;
-    ponteiroNoPilha proximo;
-} NoPilha;
+    ptrNoFila proximo;
+} NoFila;
 
 typedef struct {
-    ponteiroNoPilha topo;
-    int tamanho;
-} pilhadim;
+    ptrNoFila inicio;
+    ptrNoFila fim;
+    int contador;
+} filaDin;
 
-void iniciaPilha(pilhadim *pilha) {
-    pilha->topo = NULL;
-    pilha->tamanho = 0;
+void iniciaFilaDin(filaDin *fila) {
+    fila->inicio = NULL;
+    fila->fim = NULL;
+    fila->contador = 0;
 }
 
-void tamanho(pilhadim *pilha) {
-    printf("Tamanho: %i\n", pilha->tamanho); 
+void tamanho(filaDin *fila) {
+    printf("Tamanho da fila: %i\n", fila->contador);
 }
 
-bool estaVazia(pilhadim *pilha) {
-
-    if(pilha->tamanho == 0)
+bool estaVazia(filaDin *fila) {
+    if (fila->contador == 0) {
         return true;
-    
-    return false;
-    
-
+    } else {
+        return false;
+    }
 }
 
-void push(objeto obj, pilhadim *pilha) {
-    ponteiroNoPilha aux;
-    aux = (ponteiroNoPilha) malloc(sizeof (NoPilha));
+void enqueue(filaDin *fila, objeto obj) {
+    ptrNoFila aux;
+    aux = (ptrNoFila) malloc(sizeof (NoFila));
     aux->obj = obj;
-    aux->proximo = pilha->topo;
-    pilha->topo = aux;
-    pilha->tamanho = pilha->tamanho + 1;
-    
+    if (estaVazia(fila)) {
+        fila->inicio = aux;
+        fila->fim = aux;
+        aux->proximo = NULL;
+        fila->contador++;
+    } else {
+        aux->proximo = NULL;
+        fila->fim->proximo = aux;
+        fila->fim = fila->fim->proximo;
+        fila->contador++;
+    }
 }
 
-void pop(pilhadim *pilha, objeto *item) {
-
-    if (!estaVazia(pilha)) {
-        *item = pilha->topo->obj;
-        ponteiroNoPilha aux;
-        aux = pilha->topo;
-        pilha->topo = pilha->topo->proximo;
+objeto dequeue(filaDin *fila, objeto obj) {
+    ptrNoFila aux;
+    if (!estaVazia(fila)) {
+        aux = fila->inicio;
+        obj = aux->obj;
+        fila->inicio = fila->inicio->proximo;
         free(aux);
-        pilha->tamanho = pilha->tamanho - 1;
+        fila->contador--;
+        return obj;
     }
 }
 
-void topo(pilhadim *pilha, objeto obj) {
+objeto primeiro(filaDin *fila) {
+    return fila->inicio->obj;
+}
+
+objeto ultimo(filaDin *fila) {
+    return fila->fim->obj;
+}
+
+void print(filaDin *fila) {
+    ptrNoFila aux;
+    printf("\n[");
+    for (aux = fila->inicio; aux != NULL; aux = aux->proximo) {
+        printf(" %i ", aux->obj.key);
+    }
+    printf("]\n");
+}
+
+void destruir(filaDin *fila) {
+    ptrNoFila aux;
     
-    printf("Topo da pilha: %i\n", obj.chave);
-
+   
+        
+    while(aux!=NULL){
+        aux = fila->inicio;
+        fila->inicio = fila->inicio->proximo;
+        free(aux);
+    }  
+    
 }
 
-void print(pilhadim *pilha) {
-    printf("{");
-    ponteiroNoPilha p;
-    for (p = pilha->topo; p != NULL; p = p->proximo) {
-        printf("%i ", p->obj.chave);
-    }
-    printf("}\n");
-}
+int main() {
 
-int main(int argc, char** argv) {
-
-    pilhadim pilha;
     objeto obj;
-    iniciaPilha(&pilha);
-    for(int i=0;i<10;i++){
-        obj.chave = i;
-        push(obj, &pilha);
+    filaDin fila;
+    iniciaFilaDin(&fila);
+    for (int i = 0; i < 10; i++) {
+        obj.key = i;
+        enqueue(&fila, obj);
     }
-    
-    //estaVazia(&pilha);
-    print(&pilha);
-    tamanho(&pilha);
-    topo(&pilha, obj);
-    return (EXIT_SUCCESS);
-}
+    tamanho(&fila);
+    estaVazia(&fila);
+    primeiro(&fila);
+    ultimo(&fila);
+    print(&fila);
+    for (int j = 0; j < 3; j++) {
+        obj.key = j;
+        dequeue(&fila, obj);
+    }
+    print(&fila);
+    destruir(&fila);
 
+    return 0;
+}
