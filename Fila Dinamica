@@ -1,0 +1,114 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+
+typedef struct {
+    int key;
+} objeto;
+
+typedef struct NoFila *ptrNoFila;
+
+typedef struct NoFila {
+    objeto obj;
+    ptrNoFila proximo;
+} NoFila;
+
+typedef struct {
+    ptrNoFila inicio;
+    ptrNoFila fim;
+    int contador;
+} filaDin;
+
+void iniciaFilaDin(filaDin *fila) {
+    fila->inicio = NULL;
+    fila->fim = NULL;
+    fila->contador = 0;
+}
+
+void tamanho(filaDin *fila) {
+    printf("Tamanho da fila: %i", fila->contador);
+}
+
+bool estaVazia(filaDin *fila) {
+    if (fila->contador == 0) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+void enqueue(filaDin *fila, objeto obj) {
+    ptrNoFila aux;
+    aux = (ptrNoFila) malloc(sizeof (NoFila));
+
+    if (fila->contador == 0) {
+        fila->inicio = aux;
+        fila->fim = aux;
+        aux->proximo = NULL;
+        fila->contador += fila->contador;
+    } else {
+        aux->proximo = NULL;
+        fila->fim->proximo = aux;
+        fila->fim = fila->fim->proximo;
+    }
+}
+
+objeto dequeue(filaDin *fila, objeto obj) {
+    ptrNoFila aux;
+    if (!estaVazia(fila)) {
+        aux = fila->inicio;
+        obj = aux->obj;
+        fila->inicio = fila->inicio->proximo;
+        free(aux);
+        fila->contador -= fila->contador;
+        return obj;
+    }
+}
+
+objeto primeiro(filaDin *fila) {
+    return fila->inicio->obj;
+}
+
+objeto ultimo(filaDin *fila) {
+    return fila->fim->obj;
+}
+
+void print(filaDin *fila) {
+    ptrNoFila aux;
+    printf("[");
+    for (aux = fila->inicio; aux != NULL; aux = aux->proximo) {
+        printf(" %i ", aux->obj.key);
+    }
+    printf("]");
+}
+
+/*void destruir(filaDin *fila) {
+    ptrNoFila aux;
+    for (aux = fila->inicio; aux != NULL; aux = aux->proximo) {
+        free(aux);
+    }
+}*/
+
+int main() {
+
+    objeto obj;
+    filaDin fila;
+    iniciaFilaDin(&fila);
+    for (int i = 0; i < 10; i++) {
+        obj.key = i;
+        enqueue(&fila, obj);
+    }
+    tamanho(&fila);
+    estaVazia(&fila);
+    primeiro(&fila);
+    ultimo(&fila);
+    print(&fila);
+    for (int j = 0; j < 3; j++) {
+        j = obj.key;
+        dequeue(&fila, obj);
+    }
+    print(&fila);
+    //destruir(&fila);
+
+    return 0;
+}
