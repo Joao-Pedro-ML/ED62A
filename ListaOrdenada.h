@@ -1,3 +1,11 @@
+
+#ifndef LISTAORDENADA_H
+#define LISTAORDENADA_H
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -26,12 +34,9 @@ void iniciaLista(Lista *list){
 void inserir(Lista *list, Objeto x){
     
     PtrNoLista novo;
-    novo->elemento.chave = x.chave;
-    
     novo = (PtrNoLista) malloc(sizeof (NoLista));
-    
+    novo->elemento.chave = x.chave;
     if(list->tamanho == 0 || x.chave < list->primeiro->elemento.chave){
-        printf("Entrei aqui");
         novo->proximo = list->primeiro;
         list->primeiro = novo;
         list->tamanho++;
@@ -94,20 +99,18 @@ void removeElemento(Lista *list, int chave, Objeto *item){
     if(list->tamanho == 0 && item->chave < list->primeiro->elemento.chave){
         printf("Lista vazia!!!\n");
     } //casos 1 e 2
-    
-    
     PtrNoLista aux;
     aux = list->primeiro;
     while(aux != NULL && item->chave > aux->elemento.chave){
         aux = aux->proximo;
-        if(aux == NULL || aux->elemento.chave > item->chave){
+       
+    } //casos 4 e 5
+    if(aux == NULL || aux->elemento.chave > item->chave){
             item->chave = aux->elemento.chave;
             list->tamanho--;
         } else{
             printf("O valor solicitado não existe!!!\n");
         }
-    } //casos 4 e 5
-
 }
 
 void removePrimeiro(Lista *list, Objeto *item){
@@ -139,4 +142,12 @@ Objeto ultimo(Lista *list){
         return x;
     }
 }
+
+
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif /* LISTAORDENADA_H */
 
