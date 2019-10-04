@@ -70,7 +70,9 @@ extern "C" {
     }
 
     void preOrdem(PtrNoTree *arvore) {
+        
         if ((*arvore) != NULL) {
+            
             printf("%i\n", (*arvore)->elemento.key);
             preOrdem(&(*arvore)->left);
             preOrdem(&(*arvore)->right);
@@ -78,7 +80,9 @@ extern "C" {
     }
 
     void posOrdem(PtrNoTree *arvore) {
+        
         if ((*arvore) != NULL) {
+            
             posOrdem(&(*arvore)->left);
             posOrdem(&(*arvore)->right);
             printf("%i\n", (*arvore)->elemento.key);
@@ -86,13 +90,35 @@ extern "C" {
     }
 
     void emOrdem(PtrNoTree *arvore) {
+        
         if ((*arvore) != NULL) {
+            
             emOrdem(&(*arvore)->left);
             printf("%i\n", (*arvore)->elemento.key);
             emOrdem(&(*arvore)->right);
         }
     }
 
+    int maximo(PtrNoTree *arvore){
+        if((*arvore)->right == NULL){
+            
+            return (*arvore)->elemento.key;
+        }
+       maximo(&(*arvore)->right);
+    }
+    
+    int minimo(PtrNoTree *arvore){
+        if((*arvore)->left == NULL){
+            
+            return (*arvore)->elemento.key;
+        }
+        minimo(&(*arvore)->left);
+    }
+    
+    int maximoIterativo(PtrNoTree *arvore){
+        
+    }
+    
 #ifdef __cplusplus
 }
 #endif
