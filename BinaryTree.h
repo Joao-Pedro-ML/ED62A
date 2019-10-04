@@ -116,7 +116,19 @@ extern "C" {
     }
     
     int maximoIterativo(PtrNoTree *arvore){
-        
+        PtrNoTree aux;
+        for(aux = (*arvore) ; aux->right != NULL; aux = aux->right){
+            
+        }
+        return aux->elemento.key;
+    }
+    
+    int minimoIterativo(PtrNoTree *arvore){
+        PtrNoTree aux;
+        for(aux = (*arvore) ; aux->left != NULL; aux = aux->left){
+            
+        }
+        return aux->elemento.key;
     }
     
 #ifdef __cplusplus
