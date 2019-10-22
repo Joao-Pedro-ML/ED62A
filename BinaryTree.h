@@ -52,12 +52,12 @@ extern "C" {
     bool procurar(PtrNoTree *arvore, int chave, objeto *ret) {
         //nao achou elemento
         if (*arvore == NULL) {
-            printf("0\n");
+
             return (false);
         }
         //achou elemento
         if ((*arvore)->elemento.key == chave) {
-            printf("1\n");
+
             return (true);
         }
         if (chave < (*arvore)->elemento.key) {
@@ -70,9 +70,9 @@ extern "C" {
     }
 
     void preOrdem(PtrNoTree *arvore) {
-        
+
         if ((*arvore) != NULL) {
-            
+
             printf("%i\n", (*arvore)->elemento.key);
             preOrdem(&(*arvore)->left);
             preOrdem(&(*arvore)->right);
@@ -80,9 +80,9 @@ extern "C" {
     }
 
     void posOrdem(PtrNoTree *arvore) {
-        
+
         if ((*arvore) != NULL) {
-            
+
             posOrdem(&(*arvore)->left);
             posOrdem(&(*arvore)->right);
             printf("%i\n", (*arvore)->elemento.key);
@@ -90,47 +90,87 @@ extern "C" {
     }
 
     void emOrdem(PtrNoTree *arvore) {
-        
+
         if ((*arvore) != NULL) {
-            
+
             emOrdem(&(*arvore)->left);
             printf("%i\n", (*arvore)->elemento.key);
             emOrdem(&(*arvore)->right);
         }
     }
 
-    int maximo(PtrNoTree *arvore){
-        if((*arvore)->right == NULL){
-            
+    int maximo(PtrNoTree *arvore) {
+        if ((*arvore)->right == NULL) {
+
             return (*arvore)->elemento.key;
         }
-       maximo(&(*arvore)->right);
+        maximo(&(*arvore)->right);
     }
-    
-    int minimo(PtrNoTree *arvore){
-        if((*arvore)->left == NULL){
-            
+
+    int minimo(PtrNoTree *arvore) {
+        if ((*arvore)->left == NULL) {
+
             return (*arvore)->elemento.key;
         }
         minimo(&(*arvore)->left);
     }
-    
-    int maximoIterativo(PtrNoTree *arvore){
+
+    int maximoIterativo(PtrNoTree *arvore) {
         PtrNoTree aux;
-        for(aux = (*arvore) ; aux->right != NULL; aux = aux->right){
-            
+        for (aux = (*arvore); aux->right != NULL; aux = aux->right) {
+
         }
         return aux->elemento.key;
     }
-    
-    int minimoIterativo(PtrNoTree *arvore){
+
+    int minimoIterativo(PtrNoTree *arvore) {
         PtrNoTree aux;
-        for(aux = (*arvore) ; aux->left != NULL; aux = aux->left){
-            
+        for (aux = (*arvore); aux->left != NULL; aux = aux->left) {
+
         }
         return aux->elemento.key;
     }
-    
+
+    PtrNoTree getMaxAux(PtrNoTree *arvore) {
+        PtrNoTree ret;
+        if ((*arvore)->right == NULL) {
+            ret = (*arvore);
+            (*arvore) = (*arvore)->left;
+            return (ret);
+        }
+        return (getMaxAux(&(*arvore)->right));
+    }
+
+   
+    bool remover(PtrNoTree *arvore, int chave, objeto *x) {
+        if (*arvore == NULL) { //não existe elemento a ser removido
+            return false;
+        }
+        if ((*arvore)->elemento.key == chave) {
+            PtrNoTree aux = (*arvore);
+            *x = aux->elemento;
+
+            if (aux->left == NULL && aux->right == NULL) {
+                *arvore = NULL;
+            } else if (aux->right == NULL && aux->left != NULL) {
+                *arvore = (*arvore)->left;
+            } else if (aux->left == NULL && aux->right != NULL) {
+                *arvore = (*arvore)->right;
+            } else {
+                aux = getMaxAux(&((*arvore)->right));
+                (*arvore)->elemento = aux->elemento;
+            }
+            free(aux);
+            return true;
+        }else if (chave < (*arvore)->elemento.key) {
+            return (remover(&(*arvore)->left, chave, x));
+        } else { 
+            return (remover(&(*arvore)->right, chave, x));
+        }
+        
+        
+    }
+
 #ifdef __cplusplus
 }
 #endif
