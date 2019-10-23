@@ -1,0 +1,34 @@
+#include "Biblioteca.h"
+
+
+int main(int argc, char** argv) {
+
+    PtrNoTree arvore;
+    objeto obj;
+    filaDin fila;
+    objetoFila ob;
+    
+    ObjetoLista o;
+    FILE *arq;
+    
+    iniciaArvore(&arvore);
+    iniciaLista(&obj.lista);
+    arq = fopen("entrada1.txt", "r");
+    /*char ola[31] = "viado";
+    strcpy(obj.palavra, ola);
+    o.chave = 1;
+    inserirL(&obj.lista, o);
+    inserirA(&arvore, obj);
+    destruir(&obj.lista);
+    iniciaLista(&obj.lista);
+    char tchau[31] = "gatos";
+    strcpy(obj.palavra, tchau);
+    inserirA(&arvore, obj);
+    char bye[31] = "gato";
+    strcpy(obj.palavra, bye);
+    inserirA(&arvore, obj);
+    emOrdem(&arvore);*/
+    
+    return (EXIT_SUCCESS);
+}
+
