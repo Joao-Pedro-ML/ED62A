@@ -75,11 +75,19 @@ extern "C" {
     }
 
     int alturaAVL(PtrNoAVL *avl) {
-        int h1 = 0, h2 = 0;
+        int hdir = 0, hesq = 0;
         if (*avl == NULL) {
             return 0;
+        } else{
+            hdir = 1 + alturaAVL(&(*avl)->right);
+            hesq = 1 + alturaAVL(&(*avl)->left);
+            if(hdir > hesq){
+                return (hdir);
+            } else{
+                return (hesq);
+            }
         }
-        if ((*avl)->right != NULL) {
+        /*if ((*avl)->right != NULL) {
             h1++;
             h1 += alturaAVL(&(*avl)->right);
             
@@ -95,9 +103,30 @@ extern "C" {
         } else {
             
             return h2;
-        }
+        }*/
     }
 
+    int atualizaAltura(PtrNoAVL left, PtrNoAVL right){
+        int ae, ad;
+        ae = alturaAVL(&left);
+        ad = alturaAVL(&right);
+        if(ae > ad){
+            return (ae + 1);
+        } else{
+            return (ad + 1);
+        }
+    }
+    
+    int fatorBalanceamento(PtrNoAVL *avl){
+        int dir, esq;
+        if((*avl)->right != NULL){
+            dir = 1 + alturaAVL(&(*avl)->right);
+        }
+        if((*avl)->left != NULL){
+            esq = -1 - alturaAVL(&(*avl)->left);
+        }
+        return dir + esq;
+    }
     
     bool procurarAVL(PtrNoAVL *avl, int chave, objeto *ret) {
         //nao achou elemento
@@ -195,12 +224,11 @@ extern "C" {
             } else {
                 printf("Rotação Dupla para Esquerda\n");
                 rotacaoDuplaEsquerda(&(*avl));
-
             }
         }
 
     }
-
+ 
     bool inserirAVL(PtrNoAVL *avl, objeto obj) {
         if (*avl == NULL) {
             (*avl) = malloc(sizeof (NoAVL));
@@ -232,6 +260,54 @@ extern "C" {
         (*avl)->altura = alturaAVL(&(*avl));
     }
 
+    PtrNoAVL getMaxAux(PtrNoAVL *avl) {
+        PtrNoAVL aux;
+        if ((*avl)->right == NULL) {
+            aux = (*avl);
+            (*avl) = (*avl)->left;
+            return (aux);
+        }
+        return (getMaxAux(&(*avl)->right));
+    }
+    
+    bool remover(PtrNoAVL *avl, int chave) {
+        if (*avl == NULL) { //não existe elemento a ser removido
+            return false;
+        }
+        if ((*avl)->elemento.key == chave) {
+            PtrNoAVL aux = (*avl);
+            
+
+            if (aux->left == NULL && aux->right == NULL) {
+                *avl = NULL;
+            } else if (aux->right == NULL && aux->left != NULL) {
+                *avl = (*avl)->left;
+            } else if (aux->left == NULL && aux->right != NULL) {
+                *avl = (*avl)->right;
+            } else {
+                aux = getMaxAux(&((*avl)->right));
+                (*avl)->elemento = aux->elemento;
+            }
+            free(aux);
+            return true;
+        }
+        bool teste;
+        if(chave < (*avl)->elemento.key){
+            teste = remover(&(*avl)->left, chave);
+        } else{
+            teste = remover(&(*avl)->right, chave);
+        }
+        if(teste == false){
+            return false;
+        }
+        int hesq = alturaAVL(&(*avl)->left);
+        int hdir = alturaAVL(&(*avl)->right);
+        if(hesq - hdir == 2 || hesq - hdir == -2){
+            aplicarRotacoes(&(*avl));
+        }
+        (*avl)->altura = atualizaAltura((*avl)->left, (*avl)->right);
+    }
+    
 #ifdef __cplusplus
 }
 #endif
