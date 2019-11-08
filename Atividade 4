@@ -1,0 +1,30 @@
+#include <stdlib.h>
+#include <stdio.h>
+#include "AVL.h"
+
+int main(int argc, char** argv) {
+
+    PtrNoAVL a;
+    objeto obj;
+    FILE *arq1 = NULL;
+    FILE *arq2 = NULL;
+    iniciaAVL(&a);
+    arq1 = fopen("entrada.txt", "r");
+    arq2 = fopen("saida.txt", "a");
+
+    for (int i = 0; !feof(arq1); i++) {
+        fscanf(arq1, "%i,", &obj.key);
+        inserirAVL(&a, obj);
+    }
+    emOrdem(&a);
+    int chave;
+    for (int j = 0; !feof(arq1); j++){
+        fscanf(arq1, "%i", &chave);
+        remover(&a, chave);
+    }   
+    printf("---------\n");
+    emOrdem(&a);
+    
+    return (EXIT_SUCCESS);
+}
+
