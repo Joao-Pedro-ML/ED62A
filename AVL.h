@@ -1,16 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/* 
- * File:   AVL.h
- * Author: root
- *
- * Created on 22 de outubro de 2019, 14:31
- */
-
 #ifndef AVL_H
 #define AVL_H
 
@@ -78,12 +65,12 @@ extern "C" {
         int hdir = 0, hesq = 0;
         if (*avl == NULL) {
             return 0;
-        } else{
+        } else {
             hdir = 1 + alturaAVL(&(*avl)->right);
             hesq = 1 + alturaAVL(&(*avl)->left);
-            if(hdir > hesq){
+            if (hdir > hesq) {
                 return (hdir);
-            } else{
+            } else {
                 return (hesq);
             }
         }
@@ -106,28 +93,28 @@ extern "C" {
         }*/
     }
 
-    int atualizaAltura(PtrNoAVL left, PtrNoAVL right){
+    int atualizaAltura(PtrNoAVL left, PtrNoAVL right) {
         int ae, ad;
         ae = alturaAVL(&left);
         ad = alturaAVL(&right);
-        if(ae > ad){
+        if (ae > ad) {
             return (ae + 1);
-        } else{
+        } else {
             return (ad + 1);
         }
     }
-    
-    int fatorBalanceamento(PtrNoAVL *avl){
+
+    int fatorBalanceamento(PtrNoAVL *avl) {
         int dir, esq;
-        if((*avl)->right != NULL){
+        if ((*avl)->right != NULL) {
             dir = 1 + alturaAVL(&(*avl)->right);
         }
-        if((*avl)->left != NULL){
+        if ((*avl)->left != NULL) {
             esq = -1 - alturaAVL(&(*avl)->left);
         }
         return dir + esq;
     }
-    
+
     bool procurarAVL(PtrNoAVL *avl, int chave, objeto *ret) {
         //nao achou elemento
         if (*avl == NULL) {
@@ -228,7 +215,7 @@ extern "C" {
         }
 
     }
- 
+
     bool inserirAVL(PtrNoAVL *avl, objeto obj) {
         if (*avl == NULL) {
             (*avl) = malloc(sizeof (NoAVL));
@@ -242,23 +229,23 @@ extern "C" {
         bool x;
         if ((*avl)->elemento.key > obj.key) {
             x = (inserirAVL(&(*avl)->left, obj));
-            return true;
+            //return true;
         } else {
             x = (inserirAVL(&(*avl)->right, obj));
-            return true;
+            //return true;
         }
         if (x == false) {
-            return false;
+            //return false;
         }
-        int ae, ad;
-        ae = alturaAVL(&(*avl)->left);
-        ad = alturaAVL(&(*avl)->right);
-        if ((ad - ae == -2) || (ad - ae == 2)) {
-            printf("A árvore está desbalanceada!\n");
+        int hesq = alturaAVL(&(*avl)->left);
+        int hdir = alturaAVL(&(*avl)->right);
+        if (hesq - hdir == 2 || hesq - hdir == -2) {
+            printf("A arvore esta desbalanceada!\n");
             aplicarRotacoes(&(*avl));
         }
-        (*avl)->altura = alturaAVL(&(*avl));
+        (*avl)->altura = atualizaAltura((*avl)->left, (*avl)->right);
     }
+    
 
     PtrNoAVL getMaxAux(PtrNoAVL *avl) {
         PtrNoAVL aux;
@@ -269,14 +256,14 @@ extern "C" {
         }
         return (getMaxAux(&(*avl)->right));
     }
-    
+
     bool remover(PtrNoAVL *avl, int chave) {
         if (*avl == NULL) { //não existe elemento a ser removido
             return false;
         }
         if ((*avl)->elemento.key == chave) {
             PtrNoAVL aux = (*avl);
-            
+
 
             if (aux->left == NULL && aux->right == NULL) {
                 *avl = NULL;
@@ -292,25 +279,53 @@ extern "C" {
             return true;
         }
         bool teste;
-        if(chave < (*avl)->elemento.key){
+        if (chave < (*avl)->elemento.key) {
             teste = remover(&(*avl)->left, chave);
-        } else{
+        } else {
             teste = remover(&(*avl)->right, chave);
         }
-        if(teste == false){
+        if (teste == false) {
             return false;
         }
         int hesq = alturaAVL(&(*avl)->left);
         int hdir = alturaAVL(&(*avl)->right);
-        if(hesq - hdir == 2 || hesq - hdir == -2){
+        if (hesq - hdir == 2 || hesq - hdir == -2) {
+            printf("A arvore esta desbalanceada!\n");
             aplicarRotacoes(&(*avl));
         }
         (*avl)->altura = atualizaAltura((*avl)->left, (*avl)->right);
     }
+
     
+    
+    
+    int count(PtrNoAVL h) {
+
+        if (h == NULL) return 0;
+        return count(h->left) + count(h->right) + 1;
+    }
+    
+    void imprime(PtrNoAVL h) {
+        PtrNoAVL *fila;
+        int i, f;
+
+        fila = malloc(count(h) * sizeof (PtrNoAVL));
+        fila[0] = h;
+        i = 0;
+        f = 1;
+        while (f > i) {
+            h = fila[i++];
+            printf("%i\n", h->elemento.key);
+            if (h->left != NULL) fila[f++] = h->left;
+            if (h->right != NULL) fila[f++] = h->right;
+        }
+        free(fila);
+    }
+
+    
+
 #ifdef __cplusplus
 }
 #endif
 
 #endif /* AVL_H */
-
