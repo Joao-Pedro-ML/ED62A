@@ -11,19 +11,34 @@ int main(int argc, char** argv) {
     iniciaAVL(&a);
     arq1 = fopen("entrada.txt", "r");
     arq2 = fopen("saida.txt", "a");
-
-    for (int i = 0; !feof(arq1); i++) {
+    
+    for (int i = 0; !feof(arq1) ; i++) {
         fscanf(arq1, "%i,", &obj.key);
         inserirAVL(&a, obj);
     }
     emOrdem(&a);
-    int chave;
+    int chave = 0;
     for (int j = 0; !feof(arq1); j++){
         fscanf(arq1, "%i", &chave);
         remover(&a, chave);
     }   
     printf("---------\n");
     emOrdem(&a);
+    /*iniciaAVL(&a);
+    obj.key = 1;
+    inserirAVL(&a,obj);
+    obj.key = 2;
+    inserirAVL(&a,obj);
+    obj.key = 3;
+    inserirAVL(&a,obj);
+    obj.key = 4;
+    inserirAVL(&a,obj);
+    obj.key = 5;
+    inserirAVL(&a,obj);
+    imprime(a);
+    printf("----------\n");
+    remover(&a,3);
+    imprime(a);*/
     
     return (EXIT_SUCCESS);
 }
