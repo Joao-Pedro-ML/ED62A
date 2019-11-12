@@ -11,12 +11,23 @@ int main(int argc, char** argv) {
     iniciaAVL(&a);
     arq1 = fopen("entrada.txt", "r");
     arq2 = fopen("saida.txt", "a");
-    
-    for (int i = 0; !feof(arq1) ; i++) {
+    char c;
+    int x = 1;for (int i = 0; i < x ; i++) {
         fscanf(arq1, "%i,", &obj.key);
         inserirAVL(&a, obj);
     }
-    emOrdem(&a);
+    do{
+        c = fgetc(arq1);
+        if(c == ','){
+            x++;
+        }
+    }while(c != '\n');
+    fseek(arq1, SEEK_CUR, SEEK_SET);
+    for (int i = 0; i < (x - 2) ; i++) {
+        fscanf(arq1, "%i,", &obj.key);
+        inserirAVL(&a, obj);
+    }
+    imprime(a);
     int chave = 0;
     for (int j = 0; !feof(arq1); j++){
         fscanf(arq1, "%i", &chave);
