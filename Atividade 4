@@ -1,8 +1,40 @@
-#include <stdlib.h>
-#include <stdio.h>
 #include "AVL.h"
 
+
+
+// A função auxiliar imprimeNo imprime o caracter
+
+// c precedido de 3b espaços e seguido de uma mudança
+
+// de linha.
+
+void imprimeNo(objeto obj, int b) {
+
+    int i;
+    for (i = 0; i < b; i++) {
+        printf("\t");
+    }
+    printf("%i\n", obj.key);
+}
+
+// A função mostraArvore faz um desenho esquerda-direita-raiz
+
+// da árvore x. O desenho terá uma margem esquerda de
+
+// 3b espaços.
+
+void mostraArvore(PtrNoAVL *a, int b) {
+
+    if (a != NULL) {
+        imprimeNo((*a)->elemento, b);
+    }
+    mostraArvore(&(*a)->right, b + 1);
+    imprimeNo((*a)->elemento, b);
+    mostraArvore(&(*a)->left, b + 1);
+}
+
 int main(int argc, char** argv) {
+
 
     PtrNoAVL a;
     objeto obj;
@@ -11,30 +43,44 @@ int main(int argc, char** argv) {
     iniciaAVL(&a);
     arq1 = fopen("entrada.txt", "r");
     arq2 = fopen("saida.txt", "a");
+    if (arq1 == NULL) {
+        printf("Erro ao abrir o arquivo de entrada!\n");
+    }
+    if (arq2 == NULL) {
+        printf("Erro ao abrir o arquivo de saida!\n");
+    }
     char c;
-    int x = 1;for (int i = 0; i < x ; i++) {
+    int x = 1;
+    for (int i = 0; i < x; i++) {
         fscanf(arq1, "%i,", &obj.key);
         inserirAVL(&a, obj);
     }
-    do{
+    do {
         c = fgetc(arq1);
-        if(c == ','){
+        if (c == ',') {
             x++;
         }
-    }while(c != '\n');
+    } while (c != '\n');
     fseek(arq1, SEEK_CUR, SEEK_SET);
-    for (int i = 0; i < (x - 2) ; i++) {
+    for (int i = 0; i <= x; i++) {
         fscanf(arq1, "%i,", &obj.key);
+        printf("Inserindo %i na arvore\n", obj.key);
         inserirAVL(&a, obj);
     }
     imprime(a);
     int chave = 0;
-    for (int j = 0; !feof(arq1); j++){
-        fscanf(arq1, "%i", &chave);
+    for (int j = 0; !feof(arq1); j++) {
+        fscanf(arq1, "%i,", &chave);
+        printf("Removendo %i da arvore\n", chave);
         remover(&a, chave);
-    }   
+    }
     printf("---------\n");
     emOrdem(&a);
+    printf("---------\n");
+    fclose(arq1);
+
+    mostraArvore(&a, 0);
+
     /*iniciaAVL(&a);
     obj.key = 1;
     inserirAVL(&a,obj);
@@ -49,8 +95,10 @@ int main(int argc, char** argv) {
     imprime(a);
     printf("----------\n");
     remover(&a,3);
-    imprime(a);*/
-    
+    imprime(a);
+    printf("----------\n");*/
+
+
     return (EXIT_SUCCESS);
 }
 
