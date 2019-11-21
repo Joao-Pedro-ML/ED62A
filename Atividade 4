@@ -48,8 +48,6 @@ int main(int argc, char** argv) {
     PtrNoAVL a;
     objeto obj;
     iniciaAVL(&a);
-    
-    
     char c[100];
     char *aux;
     fgets(c,100,arq1);
@@ -67,7 +65,7 @@ int main(int argc, char** argv) {
     }
     fprintf(arq2, "(*)Antes\n");
     fclose(arq2);
-    mostraArvore(&a, 1);
+    mostraArvore(argv[2], &a, 1);
     int chave = 0;
     fgets(c,100,arq1);
     aux = strtok(c,",\n");
@@ -81,7 +79,7 @@ int main(int argc, char** argv) {
     arq2 = fopen("saida.txt", "a");
     fprintf(arq2, "\n(*)Depois\n");
     fclose(arq2);
-    mostraArvore(&a, 1);
+    mostraArvore(argv[2], &a, 1);
     liberaAVL(&a);
     
     return (EXIT_SUCCESS);
