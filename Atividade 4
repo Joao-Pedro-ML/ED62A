@@ -1,104 +1,89 @@
 #include "AVL.h"
 
 
+/*void imprimeNo(PtrNoAVL *a, int b) {
 
-// A função auxiliar imprimeNo imprime o caracter
-
-// c precedido de 3b espaços e seguido de uma mudança
-
-// de linha.
-
-void imprimeNo(objeto obj, int b) {
-
+    FILE *arq2 = NULL;
+    arq2 = fopen("saida.txt", "a");
+    if(arq2 == NULL){
+        printf("Erro ao abrir o arquivo de saida!!!\n");
+    }
+    int hesq = alturaAVL(&(*a)->left);
+    int hdir = alturaAVL(&(*a)->right);
+    int f = hdir - hesq;
     int i;
     for (i = 0; i < b; i++) {
-        printf("\t");
+        fprintf(arq2, "\t");
     }
-    printf("%i\n", obj.key);
+    fprintf(arq2, "%i (%i),\n", (*a)->elemento.key, f);
+    fclose(arq2);
 }
-
-// A função mostraArvore faz um desenho esquerda-direita-raiz
-
-// da árvore x. O desenho terá uma margem esquerda de
-
-// 3b espaços.
 
 void mostraArvore(PtrNoAVL *a, int b) {
 
-    if (a != NULL) {
-        imprimeNo((*a)->elemento, b);
+    if((*a)->right != NULL){
+        mostraArvore(&(*a)->right, b + 1);
     }
-    mostraArvore(&(*a)->right, b + 1);
-    imprimeNo((*a)->elemento, b);
-    mostraArvore(&(*a)->left, b + 1);
-}
+    if (a != NULL) {
+        imprimeNo(&(*a), b);
+    }
+    
+    if((*a)->left != NULL){
+        mostraArvore(&(*a)->left, b + 1);
+    }
+}*/
 
 int main(int argc, char** argv) {
 
-
+    FILE *arq1 = NULL;
+    if(argc < 3){
+        printf("Numero insuficiente de argumentos!\n");
+        exit(1);
+    }
+    arq1 = fopen(argv[1], "r");
+    if (arq1 == NULL) {
+        printf("Arquivo faltando!\n");
+        exit(1);
+    }
     PtrNoAVL a;
     objeto obj;
-    FILE *arq1 = NULL;
-    FILE *arq2 = NULL;
     iniciaAVL(&a);
-    arq1 = fopen("entrada.txt", "r");
-    arq2 = fopen("saida.txt", "a");
-    if (arq1 == NULL) {
-        printf("Erro ao abrir o arquivo de entrada!\n");
+    
+    
+    char c[100];
+    char *aux;
+    fgets(c,100,arq1);
+    aux = strtok(c,",\n");
+    while(aux != NULL){
+        obj.key = atoi(aux);
+        inserirAVL(&a,obj);
+        aux = strtok(NULL,",\n");
     }
+    FILE *arq2;
+    arq2 = fopen(argv[2], "w");
     if (arq2 == NULL) {
-        printf("Erro ao abrir o arquivo de saida!\n");
+        printf("Arquivo faltando!\n");
+        exit(1);
     }
-    char c;
-    int x = 1;
-    for (int i = 0; i < x; i++) {
-        fscanf(arq1, "%i,", &obj.key);
-        inserirAVL(&a, obj);
-    }
-    do {
-        c = fgetc(arq1);
-        if (c == ',') {
-            x++;
-        }
-    } while (c != '\n');
-    fseek(arq1, SEEK_CUR, SEEK_SET);
-    for (int i = 0; i <= x; i++) {
-        fscanf(arq1, "%i,", &obj.key);
-        printf("Inserindo %i na arvore\n", obj.key);
-        inserirAVL(&a, obj);
-    }
-    imprime(a);
+    fprintf(arq2, "(*)Antes\n");
+    fclose(arq2);
+    mostraArvore(&a, 1);
     int chave = 0;
-    for (int j = 0; !feof(arq1); j++) {
-        fscanf(arq1, "%i,", &chave);
-        printf("Removendo %i da arvore\n", chave);
-        remover(&a, chave);
+    fgets(c,100,arq1);
+    aux = strtok(c,",\n");
+    while(aux != NULL){
+        printf("%s\n", aux);
+        chave = atoi(aux);
+        remover(&a,chave);
+        aux = strtok(NULL,",\n");
     }
-    printf("---------\n");
-    emOrdem(&a);
-    printf("---------\n");
     fclose(arq1);
-
-    mostraArvore(&a, 0);
-
-    /*iniciaAVL(&a);
-    obj.key = 1;
-    inserirAVL(&a,obj);
-    obj.key = 2;
-    inserirAVL(&a,obj);
-    obj.key = 3;
-    inserirAVL(&a,obj);
-    obj.key = 4;
-    inserirAVL(&a,obj);
-    obj.key = 5;
-    inserirAVL(&a,obj);
-    imprime(a);
-    printf("----------\n");
-    remover(&a,3);
-    imprime(a);
-    printf("----------\n");*/
-
-
+    arq2 = fopen("saida.txt", "a");
+    fprintf(arq2, "\n(*)Depois\n");
+    fclose(arq2);
+    mostraArvore(&a, 1);
+    liberaAVL(&a);
+    
     return (EXIT_SUCCESS);
 }
 
