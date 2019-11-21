@@ -279,10 +279,10 @@ extern "C" {
         (*avl)->altura = atualizaAltura((*avl)->left, (*avl)->right);
     }
 
-    void imprimeNo(PtrNoAVL *a, int b) {
+    void imprimeNo(char *nome, PtrNoAVL *a, int b) {
 
         FILE *arq2;
-        arq2 = fopen(argv[2], "a");
+        arq2 = fopen(nome, "a");
         if (arq2 == NULL) {
             printf("Erro ao abrir o arquivo de saida!!!\n");
         }
@@ -297,17 +297,17 @@ extern "C" {
         fclose(arq2);
     }
 
-    void mostraArvore(PtrNoAVL *a, int b) {
+    void mostraArvore(char *nome, PtrNoAVL *a, int b) {
 
         if ((*a)->right != NULL) {
-            mostraArvore(&(*a)->right, b + 1);
+            mostraArvore(nome, &(*a)->right, b + 1);
         }
         if (a != NULL) {
-            imprimeNo(&(*a), b);
+            imprimeNo(nome, &(*a), b);
         }
 
         if ((*a)->left != NULL) {
-            mostraArvore(&(*a)->left, b + 1);
+            mostraArvore(nome, &(*a)->left, b + 1);
         }
     }
 
