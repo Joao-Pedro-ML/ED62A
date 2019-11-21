@@ -8,6 +8,7 @@ extern "C" {
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
+#include <string.h>
 
     typedef struct {
         int key;
@@ -74,23 +75,6 @@ extern "C" {
                 return (hesq);
             }
         }
-        /*if ((*avl)->right != NULL) {
-            h1++;
-            h1 += alturaAVL(&(*avl)->right);
-            
-        }
-        if ((*avl)->left != NULL) {
-            h2++;
-            h2 += alturaAVL(&(*avl)->left);
-    
-        }
-        if (h1 > h2) {
-            
-            return h1;
-        } else {
-            
-            return h2;
-        }*/
     }
 
     int atualizaAltura(PtrNoAVL left, PtrNoAVL right) {
@@ -245,7 +229,6 @@ extern "C" {
         }
         (*avl)->altura = atualizaAltura((*avl)->left, (*avl)->right);
     }
-    
 
     PtrNoAVL getMaxAux(PtrNoAVL *avl) {
         PtrNoAVL aux;
@@ -296,33 +279,37 @@ extern "C" {
         (*avl)->altura = atualizaAltura((*avl)->left, (*avl)->right);
     }
 
-    
-    
-    
-    int count(PtrNoAVL h) {
+    void imprimeNo(PtrNoAVL *a, int b) {
 
-        if (h == NULL) return 0;
-        return count(h->left) + count(h->right) + 1;
-    }
-    
-    void imprime(PtrNoAVL h) {
-        PtrNoAVL *fila;
-        int i, f;
-
-        fila = malloc(count(h) * sizeof (PtrNoAVL));
-        fila[0] = h;
-        i = 0;
-        f = 1;
-        while (f > i) {
-            h = fila[i++];
-            printf("%i\n", h->elemento.key);
-            if (h->left != NULL) fila[f++] = h->left;
-            if (h->right != NULL) fila[f++] = h->right;
+        FILE *arq2;
+        arq2 = fopen(argv[2], "a");
+        if (arq2 == NULL) {
+            printf("Erro ao abrir o arquivo de saida!!!\n");
         }
-        free(fila);
+        int hesq = alturaAVL(&(*a)->left);
+        int hdir = alturaAVL(&(*a)->right);
+        int f = hdir - hesq;
+        int i;
+        for (i = 0; i < b; i++) {
+            fprintf(arq2, "\t");
+        }
+        fprintf(arq2, "%i (%i),\n", (*a)->elemento.key, f);
+        fclose(arq2);
     }
 
-    
+    void mostraArvore(PtrNoAVL *a, int b) {
+
+        if ((*a)->right != NULL) {
+            mostraArvore(&(*a)->right, b + 1);
+        }
+        if (a != NULL) {
+            imprimeNo(&(*a), b);
+        }
+
+        if ((*a)->left != NULL) {
+            mostraArvore(&(*a)->left, b + 1);
+        }
+    }
 
 #ifdef __cplusplus
 }
