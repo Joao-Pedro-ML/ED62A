@@ -1,37 +1,6 @@
+
 #include "AVL.h"
 
-
-/*void imprimeNo(PtrNoAVL *a, int b) {
-
-    FILE *arq2 = NULL;
-    arq2 = fopen("saida.txt", "a");
-    if(arq2 == NULL){
-        printf("Erro ao abrir o arquivo de saida!!!\n");
-    }
-    int hesq = alturaAVL(&(*a)->left);
-    int hdir = alturaAVL(&(*a)->right);
-    int f = hdir - hesq;
-    int i;
-    for (i = 0; i < b; i++) {
-        fprintf(arq2, "\t");
-    }
-    fprintf(arq2, "%i (%i),\n", (*a)->elemento.key, f);
-    fclose(arq2);
-}
-
-void mostraArvore(PtrNoAVL *a, int b) {
-
-    if((*a)->right != NULL){
-        mostraArvore(&(*a)->right, b + 1);
-    }
-    if (a != NULL) {
-        imprimeNo(&(*a), b);
-    }
-    
-    if((*a)->left != NULL){
-        mostraArvore(&(*a)->left, b + 1);
-    }
-}*/
 
 int main(int argc, char** argv) {
 
@@ -84,4 +53,3 @@ int main(int argc, char** argv) {
     
     return (EXIT_SUCCESS);
 }
-
